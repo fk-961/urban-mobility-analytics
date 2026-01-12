@@ -1,2 +1,4 @@
 *.code-workspace
 data/raw
+__pycache__
+.env

@@ -3,12 +3,17 @@ Extracts data from NYC 311 API and stores it as JSON.
 We are using public API version, check documentation at https://dev.socrata.com/foundry/data.cityofnewyork.us/erm2-nwe9.
 """
 
+import os
+from dotenv import load_dotenv
+
 import requests
 import json
-import pandas as pd
+from pathlib import Path
 from tqdm import tqdm
 
-API_URL = "https://data.cityofnewyork.us/resource/erm2-nwe9.json"
+from src.config import RAW_DATA_DIR
+
+load_dotenv()
 
 def extract_api(
     limit: int = 1000,
@@ -40,14 +45,14 @@ def extract_api(
         
         batch_num = int(offset/limit+1)
         tqdm.write(f"Fetching batch {batch_num}...")
-        r = requests.get(
-            API_URL,
+        response = requests.get(
+            os.getenv("NYC_311_API_URL"),
             params = params,
             timeout = 30
         )
-        r.raise_for_status()
+        response.raise_for_status()
         
-        batch = r.json()
+        batch = response.json()
         pbar.update(len(batch))
         if len(batch) == 0:
             tqdm.write("No more data found.")
@@ -65,8 +70,10 @@ def extract_api(
     pbar.close()
     print("Gotten data from API, saving as JSON now")
     
+    output_dir = RAW_DATA_DIR/"nyc_311"
+    output_dir.mkdir(parents=True, exist_ok=True)
     with open(
-        "data/raw/nyc_311/nyc_311_2024.json",
+        output_dir/"nyc_311_2024.json",
         "w",
         encoding = "utf-8"
     ) as f:
