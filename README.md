@@ -46,3 +46,8 @@ RAW_DATA_DIR = ROOT_DIR/"raw"
 Considering that `config.py` is saved in `src/` directory, our project root therefore is the parent of our path at index 1 ( `__file__` being the current directory). Therefore, when we import our path variables in our scripts, we can create a new directory for example using `ROOT_DIR/"output_dir"` for example and then using the `mkdir(parents=True, exists_ok=True)` method.
 
 The `.env` file is a safe space where we can add sensitive data like API keys that we do not wanna push into our remote repository. We need to use the `load_dotenv` function from the module `dotenv` at the beginning of the script so we can load the variables. Then we can access the variables by using `os.getenv("VAR_NAME")` for example.
+
+## Databases
+This project intentionally follows a SQL-first transformation approach. All data transformations are written in SQL while Python is only used for ingesting raw data (CSVs, APIs) and managing database connection and executing scripts. The database used is **PostgreSQL** and the access layer is going to be through the module `sqlalchemy`. We couldve sticked to `psycopg2` but `sqlachemy` provides portability if the back end changes and better integration with `pandas`.
+
+**Note:** `psycopg2` needs to be installed though since `sqlalchemy` is going to need it to interact with our database.
