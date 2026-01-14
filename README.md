@@ -1,6 +1,14 @@
 # Urban Mobility Analytics
 
-## APIs
+## Datasets
+
+### NYC Trip Records
+This is the taxi trips data that we are going to use for this project. We can find the documentation [here](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page). This data contains instances of every trip made by cabs with columns like pick up location and time, fees and distance. For the purpose of this project, we are going to download some `parquet` files for a handful of months from 2024.
+
+### NYC Taxi Zones
+
+
+### APIs
 An API is an interface usually between an application (web) and us. It is used to query data using HTTP requests without having to download or import raw data and without worrying about how the processing works from the server side or storing the whole data locally. One disadvantage of an API is that it depends on the server and therefore it can change a lot if the API providers modify data or calls. In this case, our code may not work and we have to check the documentation again.
 
 Calling an API is done by a `get` request and returns a `response` (JSON, XML, CSV) with a code. A code between 200 and 300 means usually that we got a response while 400-500 answers means something is wrong (server is down, access denied). Authentification for an API usually happens with keys, tokens, *whitelisting* (access to a specific pool of IPs) or OAuth. While querying an API for a huge dataset for example, it is common practice to use **pagination** (getting the data in batches while specifying limit and offset parameters as we did here).
