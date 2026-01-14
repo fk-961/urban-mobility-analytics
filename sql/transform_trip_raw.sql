@@ -1,0 +1,1 @@
+-- Create clean_trips table from
