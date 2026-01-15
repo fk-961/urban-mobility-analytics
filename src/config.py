@@ -9,6 +9,11 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT_DIR/"data"
 RAW_DATA_DIR = DATA_DIR/"raw"
 
+RAW_CENSUS_DIR = RAW_DATA_DIR/"census"
+RAW_311_DIR = RAW_DATA_DIR/"nyc_311"
+RAW_ZONES_DIR = RAW_DATA_DIR/"nyc_taxi_zones"
+RAW_TRIPS_DIR = RAW_DATA_DIR/"nyc_trip_records"
+
 # DB credentials
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")

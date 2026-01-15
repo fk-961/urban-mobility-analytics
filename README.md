@@ -1,5 +1,26 @@
 # Urban Mobility Analytics
 
+## Techincal notes
+
+### `pathlib` vs `os`
+Throughout this project, we are using the module `pathlib` to define our paths to our directories. It is better than using `os` module since it handles path varibales as objects and it is easier to use it accross different OS and to read.
+```
+ROOT_DIR = Path(__file__).resolve().parents[2]
+ANOTHER_DIR = ROOT_DIR/"dir1"/"dir2"
+
+# instead of
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ANOTHER_DIR = os.path.join(ROOT_DIR, "dir1")
+```
+
+Useful commands:
+- `Path()` returns the path of the current working directory.
+- `Path().iterdir()` iterdir is a methode that returns a list of all the subfiles and directories from the path object. Can be used in for loops.
+- `Path().suffix` and `Path().stem` are 2 useful attributes. Suffix refers to the extension and stem refers to the name.
+- `Path().exists()` does what it says.
+- `Path().glob("*.json")` or `Path().rglob("*test*)` checks for specific patterns of files under the current directory. The first example checks for JSON files in the current directory and the second examples checks for files containing the word text in the directory **and its sub directories**. Check documentation for optional arguments.
+- `Path().mkdir(parents=True, exist_ok=True)` or `Path().touch()` creates a directory for the first example. The argument `parents` is set to True means our path can contain a chain of non existing sub directories.
+
 ## Datasets
 
 ### NYC Trip Records
