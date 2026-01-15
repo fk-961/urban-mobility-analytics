@@ -37,22 +37,22 @@ def load_raw_files(
     return pd.concat(df_list, ignore_index=True)
 
 def create_raw_table(
-    table_name : int,
-    db_path : Path,
+    table_name : str,
+    files_path : Path,
     type_dict : dict,
     if_exists : str = "append"
 ) -> None:
-    """Converts the metadata in the given db_path to tables in our
+    """Converts the metadata in the given files_path to tables in our
     postgres database.
 
     Args:
-        table_name (int): Table name.
-        db_path (str): Path to our raw metadata directory.
+        table_name (str): Table name.
+        files_path (str): Path to our raw metadata directory.
         type_dict (dict): Dictionary to type match with our database
         if_exists (str, optional): What happens if table already exists.
     """
-    df = load_raw_files(db_path)
-    df.columns = df.columns.str.lower().replace(" ","_")
+    df = load_raw_files(files_path)
+    df.columns = df.columns.str.lower().str.replace(" ","_")
     df = df[list(type_dict.keys())].astype(type_dict)
     
     df.to_sql(
