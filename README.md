@@ -42,6 +42,9 @@ This project intentionally follows a SQL-first transformation approach. All data
 
 **Note:** `psycopg2` needs to be installed though since `sqlalchemy` is going to need it to interact with our database.
 
+### Type casting in `pandas` and SQL
+In pandas, numeric columns containing missing values are promoted to float types, even when all non-null values are integers. Rather than forcing integer casting during ingestion, raw data is loaded with minimal transformation and semantic type enforcement is deferred to SQL, where NULL handling and domain validation can be applied consistently. For example, the column `passenger_count` from the trip records dataset have some null values therefore the column is casted as float (check [notebook](notebooks/exploration.ipynb) or in the type dictionary in [main.py](main.py)).
+
 ### `pathlib` vs `os`
 Throughout this project, we are using the module `pathlib` to define our paths to our directories. It is better than using `os` module since it handles path varibales as objects and it is easier to use it accross different OS and to read.
 ```
