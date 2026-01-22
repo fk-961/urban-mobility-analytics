@@ -1,26 +1,5 @@
 # Urban Mobility Analytics
 
-## Techincal notes
-
-### `pathlib` vs `os`
-Throughout this project, we are using the module `pathlib` to define our paths to our directories. It is better than using `os` module since it handles path varibales as objects and it is easier to use it accross different OS and to read.
-```
-ROOT_DIR = Path(__file__).resolve().parents[2]
-ANOTHER_DIR = ROOT_DIR/"dir1"/"dir2"
-
-# instead of
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ANOTHER_DIR = os.path.join(ROOT_DIR, "dir1")
-```
-
-Useful commands:
-- `Path()` returns the path of the current working directory.
-- `Path().iterdir()` iterdir is a methode that returns a list of all the subfiles and directories from the path object. Can be used in for loops.
-- `Path().suffix` and `Path().stem` are 2 useful attributes. Suffix refers to the extension and stem refers to the name.
-- `Path().exists()` does what it says.
-- `Path().glob("*.json")` or `Path().rglob("*test*)` checks for specific patterns of files under the current directory. The first example checks for JSON files in the current directory and the second examples checks for files containing the word text in the directory **and its sub directories**. Check documentation for optional arguments.
-- `Path().mkdir(parents=True, exist_ok=True)` or `Path().touch()` creates a directory for the first example. The argument `parents` is set to True means our path can contain a chain of non existing sub directories.
-
 ## Datasets
 
 ### NYC Trip Records
@@ -56,7 +35,33 @@ This API gives us information about all the areas in the US like income, populat
 | B25077_001E	| Median home value |
 | B23025_005E	| Number of unemployed persons |
 
-## `config.py` and `.env`
+## Techincal notes
+
+### Databases
+This project intentionally follows a SQL-first transformation approach. All data transformations are written in SQL while Python is only used for ingesting raw data (CSVs, APIs) and managing database connection and executing scripts. The database used is **PostgreSQL** and the access layer is going to be through the module `sqlalchemy`. We couldve sticked to `psycopg2` but `sqlachemy` provides portability if the back end changes and better integration with `pandas`.
+
+**Note:** `psycopg2` needs to be installed though since `sqlalchemy` is going to need it to interact with our database.
+
+### `pathlib` vs `os`
+Throughout this project, we are using the module `pathlib` to define our paths to our directories. It is better than using `os` module since it handles path varibales as objects and it is easier to use it accross different OS and to read.
+```
+ROOT_DIR = Path(__file__).resolve().parents[2]
+ANOTHER_DIR = ROOT_DIR/"dir1"/"dir2"
+
+# instead of
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ANOTHER_DIR = os.path.join(ROOT_DIR, "dir1")
+```
+
+Useful commands:
+- `Path()` returns the path of the current working directory.
+- `Path().iterdir()` iterdir is a methode that returns a list of all the subfiles and directories from the path object. Can be used in for loops.
+- `Path().suffix` and `Path().stem` are 2 useful attributes. Suffix refers to the extension and stem refers to the name.
+- `Path().exists()` does what it says.
+- `Path().glob("*.json")` or `Path().rglob("*test*)` checks for specific patterns of files under the current directory. The first example checks for JSON files in the current directory and the second examples checks for files containing the word text in the directory **and its sub directories**. Check documentation for optional arguments.
+- `Path().mkdir(parents=True, exist_ok=True)` or `Path().touch()` creates a directory for the first example. The argument `parents` is set to True means our path can contain a chain of non existing sub directories.
+
+### `config.py` and `.env`
 While writing our scripts, we will most likely be using data folders paths and/or API keys and URLs. A good practice is to have a `config.py` where we define the paths to useful directories using the `pathlib` module. This way our code will run smoothly on any machine without having to rename the path variables.
 ```
 ROOT_DIR = Path(__file__).resolve().parents[1]
@@ -67,8 +72,3 @@ RAW_DATA_DIR = ROOT_DIR/"raw"
 Considering that `config.py` is saved in `src/` directory, our project root therefore is the parent of our path at index 1 ( `__file__` being the current directory). Therefore, when we import our path variables in our scripts, we can create a new directory for example using `ROOT_DIR/"output_dir"` for example and then using the `mkdir(parents=True, exists_ok=True)` method.
 
 The `.env` file is a safe space where we can add sensitive data like API keys that we do not wanna push into our remote repository. We need to use the `load_dotenv` function from the module `dotenv` at the beginning of the script so we can load the variables. Then we can access the variables by using `os.getenv("VAR_NAME")` for example.
-
-## Databases
-This project intentionally follows a SQL-first transformation approach. All data transformations are written in SQL while Python is only used for ingesting raw data (CSVs, APIs) and managing database connection and executing scripts. The database used is **PostgreSQL** and the access layer is going to be through the module `sqlalchemy`. We couldve sticked to `psycopg2` but `sqlachemy` provides portability if the back end changes and better integration with `pandas`.
-
-**Note:** `psycopg2` needs to be installed though since `sqlalchemy` is going to need it to interact with our database.
