@@ -41,7 +41,7 @@ def create_raw_table(
     table_name : str,
     files_path : Path,
     type_dict : dict = None,
-    if_exists : str = "fail"
+    if_exists : str = "append"
 ) -> None:
     """Converts the metadata in the given files_path to tables in our
     postgres database.
