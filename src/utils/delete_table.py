@@ -5,7 +5,7 @@ Simple script to delete a table from our PostgreSQL database.
 import sys
 from sqlalchemy import text
 from src.db import engine
-
+from pathlib import Path
 
 def delete_table(table_name: str) -> None:
     print(f"Looking for table '{table_name}'...")
@@ -35,7 +35,7 @@ def delete_table(table_name: str) -> None:
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print(f"Usage: python {sys.argv[0]} <table_name>")
+        print(f"Usage: python {Path(sys.argv[0]).name} <table_name>")
         sys.exit(1)
 
     delete_table(sys.argv[1])
